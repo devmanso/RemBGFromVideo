@@ -8,7 +8,7 @@ if __name__ == '__main__':
     rembgvid.decompileVideo("video_from_yt.mp4", "decomp")
 
     # modify frames and store inside a new folder using parallel processing
-    rembgvid.batch_remove_background_single_better("decomp", "recomp")
+    rembgvid.batch_remove_background_single("decomp", "recomp")
 
     # recompile frames into a video
     rembgvid.create_video("recomp", "recompiled.mp4", fps)
