@@ -9,6 +9,7 @@ THIS IS A WORK-IN-PROGRESS
 - pathlib
 - tkinter
 - tkintertable
+- tkinterdnd2
 
 ## Benchmarks
 
