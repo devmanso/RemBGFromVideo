@@ -3,6 +3,13 @@ A tool to remove backgrounds from videos, WIP
 
 THIS IS A WORK-IN-PROGRESS
 
+## Requirements
+- opencv-python
+- rembg
+- pathlib
+- tkinter
+- tkintertable
+
 ## Benchmarks
 
 ### Relevant System specs
