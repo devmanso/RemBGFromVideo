@@ -49,40 +49,30 @@ def decompileVideo(video_path, output_folder):
 
     print("Frames extraction completed.")
 
+def process_image(file, input_folder, output_folder, session):
+    input_path = str(file)
+    output_filename = f"{file.stem}.jpg"
+    output_path = os.path.join(output_folder, output_filename)
 
-def remove_background_parallel(input_path, output_path):
-    with open(input_path, "rb") as input_file:
-        input_data = input_file.read()
-
-    # Use rembg library to remove the background
-    output_data = rembg.remove(input_data)
-
-    # Save the result to the output file
-    with open(output_path, "wb") as output_file:
-        output_file.write(output_data)
-
-    print("RECOMPILED FRAME")
+    with open(input_path, 'rb') as i:
+        with open(output_path, 'wb') as o:
+            input_data = i.read()
+            output_data = remove(input_data, session=session)
+            o.write(output_data)
 
 
-# THIS ONE WORKS BUT IS VERY SLOW
-def batch_remove_background_parallel(input_folder, output_folder, num_threads=4):
-    count = 0
+def batch_remove_background_parallel(input_folder, output_folder, threads=12):
+    session = new_session()
+
     # Create the output folder if it doesn't exist
     if not os.path.exists(output_folder):
-        print("RECOMP DIR NOT FOUND, MAKING RECOMP DIR")
+        print("OUTPUT DIR NOT FOUND, MAKING OUTPUT DIR")
         os.makedirs(output_folder)
 
-    # Remove background in parallel
-    with ThreadPoolExecutor(max_workers=num_threads) as executor:
-        for filename in os.listdir(input_folder):
-            if filename.endswith(('.png', '.jpg', '.jpeg')):
-                input_path = os.path.join(input_folder, filename)
-                output_path = os.path.join(output_folder, filename)
+    files = list(Path(input_folder).glob('*.jpg'))
 
-                # Remove background and save the edited image
-                executor.submit(remove_background_parallel, input_path, output_path)
-                count += 1
-                print(f"RECOMPILED FRAMES COUNT {count}")
+    with ThreadPoolExecutor(max_workers=threads) as executor:
+        executor.map(lambda file: process_image(file, input_folder, output_folder, session), files)
 
     print("RECOMPILATION COMPLETE")
 
@@ -134,4 +124,3 @@ def create_video(input_folder, output_video, fps=30.0):
     video_writer.release()
 
     print(f"Video '{output_video}' created successfully.")
-
