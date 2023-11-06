@@ -132,6 +132,3 @@ def start():
     root = TkinterDnD.Tk()
     app = GUI(root)
     root.mainloop()
-
-if __name__ == "__main__":
-    start()

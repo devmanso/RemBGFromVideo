@@ -165,6 +165,25 @@ def process_images_single(input_folder, output_folder):
 
     print("RECOMPILATION COMPLETE")
 
+def process_images_gpu_test(input_folder, output_folder, provider):
+    session = new_session(providers=provider)
+    # Create the output folder if it doesn't exist
+    if not os.path.exists(output_folder):
+        print("OUTPUT DIR NOT FOUND, MAKING OUTPUT DIR")
+        os.makedirs(output_folder)
+
+    for file in Path(input_folder).glob('*.jpg'):
+        input_path = str(file)
+        output_filename = f"{file.stem}.jpg"  # Corrected extension to .jpg
+        output_path = os.path.join(output_folder, output_filename)
+
+        with open(input_path, 'rb') as i:
+            with open(output_path, 'wb') as o:
+                input_data = i.read()
+                output_data = remove(input_data, session=session)
+                o.write(output_data)
+
+
 
 def create_video(input_folder, output_video, fps=30.0):
     # Get the list of image files in the input folder

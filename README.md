@@ -16,6 +16,7 @@ THIS IS A WORK-IN-PROGRESS
 ### Relevant System specs
 - RAM: 16gb DDR4 2666mhz
 - CPU: i7-9750h 6 core 12 threads
+- GPU: GTX 1650 4gb
 
 ### Video details
 - 240p video ripped from YouTube
@@ -24,6 +25,10 @@ THIS IS A WORK-IN-PROGRESS
 - 1-min, 34-second video
 - Description: an angry newsman loses his mind in front of the camera
 
+### Dedicated Graphics Card
+- 3 min, 38 seconds
+- very minimal GPU usage, too negligable to be noticed in task manager
+- 
 
 ### Multithreaded
 - 12 min, 46.120 seconds

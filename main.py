@@ -4,7 +4,9 @@ import onnxruntime as ort
 import rembgfromvideo as rembgvid
 from pathlib import Path
 
+
 if __name__ == "__main__":
+    print("TORCH CUDA TEST")
     print(torch.cuda.is_available())
 
     print(torch.cuda.current_device())
@@ -13,16 +15,10 @@ if __name__ == "__main__":
 
     onnx_model_path = 'models/u2net.onnx'
     session = ort.InferenceSession(onnx_model_path, providers=['CUDAExecutionProvider'])
+    provider = session.get_providers()
+    fps = rembgvid.get_video_fps("video_from_yt.mp4")
+    rembgvid.decompile_video("video_from_yt.mp4", "decomp")
 
-    # # Specify input and output folders
-    # input_folder = "decomp"
-    # output_folder = "test"
-
-    # # Create the output folder if it doesn't exist
-    # if not Path(output_folder).exists():
-    #     Path(output_folder).mkdir()
-    #
-    # # Iterate through every jpg file in the input folder
-    # for file_path in Path(input_folder).glob('*.jpg'):
-    #     rembgvid.process_image_gpu(file_path, output_folder, session)
-    GUI.start()
+    rembgvid.process_images_gpu_test("decomp", "recomp", provider)
+    rembgvid.create_video("recomp", "recompiled.mp4", fps)
+    #GUI.start()
