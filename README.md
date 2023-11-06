@@ -30,6 +30,11 @@ THIS IS A WORK-IN-PROGRESS
 - 100 percent CPU usage, using 12 threads among 6 cores
 - 5Gb memory usage
 
+(second test, this time I cleaned out my laptop to prevent thermal throttling)
+- ~5 minutes
+- 40-70% percent CPU usage, using 12 threads among 6 cores
+- 2Gb memory usage
+
 ### Single-threaded
 - 22 minutes and 36.893 seconds
 - 45 to 70 percent CPU usage

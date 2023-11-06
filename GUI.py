@@ -1,6 +1,9 @@
 import tkinter as tk
+
+from rembg import new_session
 from tkinterdnd2 import TkinterDnD, DND_FILES
 import rembgfromvideo as rembgvid
+import onnxruntime as ort
 
 class GUI:
     def __init__(self, root):
@@ -65,7 +68,7 @@ class GUI:
             )
 
             # decompile video into frames
-            rembgvid.decompileVideo(file_path, "decomp")
+            rembgvid.decompile_video(file_path, "decomp")
             print("Video decompiled into output folder")
 
             text = "Video decompiled into output folder"
@@ -91,7 +94,11 @@ class GUI:
             )
 
             # modify frames and store inside a new folder using parallel processing
-            rembgvid.batch_remove_background_parallel("decomp", "recomp", threads=4)
+            # rembgvid.process_images_parallel("decomp", "recomp", threads=12)
+            onnx_model_path = 'models/u2net.onnx'
+            session = ort.InferenceSession(onnx_model_path, providers=['CUDAExecutionProvider'])
+
+            rembgvid.process_images_gpu("decomp", "recomp", session)
             print("recompilation complete, assembling video")
 
             text = "recompilation complete, assembling video"
