@@ -81,9 +81,9 @@ class GUI:
                 fill="blue"
             )
 
-            print("recompiling frames (multi-threaded)")
+            print("recompiling frames (GPU)")
 
-            text = "recompiling frames (multi-threaded)"
+            text = "recompiling frames (GPU)"
             font_size = 30
             self.canvas.create_text(
                 self.canvas.winfo_reqwidth() / 2,
@@ -97,8 +97,8 @@ class GUI:
             # rembgvid.process_images_parallel("decomp", "recomp", threads=12)
             onnx_model_path = 'models/u2net.onnx'
             session = ort.InferenceSession(onnx_model_path, providers=['CUDAExecutionProvider'])
-
-            rembgvid.process_images_gpu("decomp", "recomp", session)
+            provider = session.get_providers()
+            rembgvid.process_images_gpu("decomp", "recomp", provider)
             print("recompilation complete, assembling video")
 
             text = "recompilation complete, assembling video"

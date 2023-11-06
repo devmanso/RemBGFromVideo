@@ -27,8 +27,8 @@ THIS IS A WORK-IN-PROGRESS
 
 ### Dedicated Graphics Card
 - 3 min, 38 seconds
-- very minimal GPU usage, too negligable to be noticed in task manager
-- 
+- 50-70% GPU usage, 1,472 mb VRAM used
+- 2 to 4gb memory usage
 
 ### Multithreaded
 - 12 min, 46.120 seconds

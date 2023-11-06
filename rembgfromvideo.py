@@ -95,37 +95,38 @@ def process_image(file, input_folder, output_folder, session):
             o.write(output_data)
 
 
-def process_image_gpu(file, output_folder, session):
-    input_path = str(file)
-    output_filename = f"{file.stem}.jpg"
-    output_path = os.path.join(output_folder, output_filename)
+# THIS CORRRUPTS IMAGES, DO NOT USE
+# def process_image_gpu(file, output_folder, session):
+#     input_path = str(file)
+#     output_filename = f"{file.stem}.jpg"
+#     output_path = os.path.join(output_folder, output_filename)
+#
+#     with open(input_path, 'rb') as i:
+#         with open(output_path, 'wb') as o:
+#             input_data = i.read()
+#
+#             # Use onnxruntime for GPU acceleration
+#             input_array = np.frombuffer(input_data, dtype=np.uint8)
+#             input_array = cv2.imdecode(input_array, cv2.IMREAD_COLOR)
+#             input_array = cv2.cvtColor(input_array, cv2.COLOR_BGR2RGB)
+#             input_array = input_array.astype(np.float32) / 255.0  # Normalize pixel values
+#             input_array = cv2.resize(input_array, (320, 320))  # Resize to match expected dimensions
+#             input_array = np.transpose(input_array, (2, 0, 1))  # Transpose to (3, 320, 320)
+#             input_array = np.expand_dims(input_array, axis=0)  # Add batch dimension
+#             input_tensor = session.get_inputs()[0].name
+#             output = session.run(None, {input_tensor: input_array})
+#
+#             o.write(output[0].tobytes())
 
-    with open(input_path, 'rb') as i:
-        with open(output_path, 'wb') as o:
-            input_data = i.read()
 
-            # Use onnxruntime for GPU acceleration
-            input_array = np.frombuffer(input_data, dtype=np.uint8)
-            input_array = cv2.imdecode(input_array, cv2.IMREAD_COLOR)
-            input_array = cv2.cvtColor(input_array, cv2.COLOR_BGR2RGB)
-            input_array = input_array.astype(np.float32) / 255.0  # Normalize pixel values
-            input_array = cv2.resize(input_array, (320, 320))  # Resize to match expected dimensions
-            input_array = np.transpose(input_array, (2, 0, 1))  # Transpose to (3, 320, 320)
-            input_array = np.expand_dims(input_array, axis=0)  # Add batch dimension
-            input_tensor = session.get_inputs()[0].name
-            output = session.run(None, {input_tensor: input_array})
-
-            o.write(output[0].tobytes())
-
-
-def process_images_gpu(input_folder, output_folder, session):
-    # Create the output folder if it doesn't exist
-    if not Path(output_folder).exists():
-        Path(output_folder).mkdir()
-
-    # Iterate through every jpg file in the input folder
-    for file_path in Path(input_folder).glob('*.jpg'):
-        process_image_gpu(file_path, output_folder, session)
+# def process_images_gpu(input_folder, output_folder, session):
+#     # Create the output folder if it doesn't exist
+#     if not Path(output_folder).exists():
+#         Path(output_folder).mkdir()
+#
+#     # Iterate through every jpg file in the input folder
+#     for file_path in Path(input_folder).glob('*.jpg'):
+#         process_image_gpu(file_path, output_folder, session)
 
 
 def process_images_parallel(input_folder, output_folder, threads=12):
@@ -165,7 +166,8 @@ def process_images_single(input_folder, output_folder):
 
     print("RECOMPILATION COMPLETE")
 
-def process_images_gpu_test(input_folder, output_folder, provider):
+
+def process_images_gpu(input_folder, output_folder, provider):
     session = new_session(providers=provider)
     # Create the output folder if it doesn't exist
     if not os.path.exists(output_folder):
@@ -182,7 +184,6 @@ def process_images_gpu_test(input_folder, output_folder, provider):
                 input_data = i.read()
                 output_data = remove(input_data, session=session)
                 o.write(output_data)
-
 
 
 def create_video(input_folder, output_video, fps=30.0):
