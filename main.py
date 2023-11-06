@@ -5,7 +5,6 @@ import rembgfromvideo as rembgvid
 from pathlib import Path
 
 if __name__ == "__main__":
-
     print(torch.cuda.is_available())
 
     print(torch.cuda.current_device())
@@ -26,4 +25,4 @@ if __name__ == "__main__":
     # # Iterate through every jpg file in the input folder
     # for file_path in Path(input_folder).glob('*.jpg'):
     #     rembgvid.process_image_gpu(file_path, output_folder, session)
-    #GUI.start()
+    GUI.start()
